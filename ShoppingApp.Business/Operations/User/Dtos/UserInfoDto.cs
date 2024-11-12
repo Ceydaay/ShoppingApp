@@ -16,5 +16,6 @@ namespace ShoppingApp.Business.Operations.User.Dtos
         public string LastName { get; set; }
 
         public UserType UserType { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }

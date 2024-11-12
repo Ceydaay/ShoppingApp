@@ -9,13 +9,15 @@ namespace ShoppingApp.Data.Entities
 {
     public class OrderProductEntity : BaseEntity
     {
-        public int OrderId { get; set; }  // Foreign key linking to the order
-        public OrderEntity Order { get; set; }  // Navigation property for the related order
+        public int OrderId { get; set; }  
+        public OrderEntity Order { get; set; }  
 
-        public int ProductId { get; set; }  // Foreign key linking to the product
-        public ProductEntity Product { get; set; }  // Navigation property for the related product
+        public int ProductId { get; set; }  
+        public ProductEntity Product { get; set; }  
 
-        public int Quantity { get; set; }  // Quantity of the product in the order
+        public int Quantity { get; set; }  
+
+
 
     }
 
@@ -23,7 +25,9 @@ namespace ShoppingApp.Data.Entities
     
         public override void Configure (EntityTypeBuilder<OrderProductEntity> builder)
         {
-            base.Configure (builder);
+            builder.Ignore(x => x.Id);
+            builder.HasKey("OrderId", "ProductId");
+            base.Configure(builder);
         }
     
     }

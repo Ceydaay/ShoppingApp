@@ -14,4 +14,8 @@
     <ProjectReference Include="..\ShoppingApp.Data\ShoppingApp.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Operations\Setting\Dtos\" />
+  </ItemGroup>
+
 </Project>

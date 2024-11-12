@@ -1,4 +1,5 @@
-﻿using ShoppingApp.Business.DataProtection;
+﻿using Microsoft.EntityFrameworkCore;
+using ShoppingApp.Business.DataProtection;
 using ShoppingApp.Business.Operations.User.Dtos;
 using ShoppingApp.Business.Types;
 using ShoppingApp.Data.Entities;
@@ -27,7 +28,7 @@ namespace ShoppingApp.Business.Operations.User
             _protector = protector;
         }
 
-
+        // Yeni bir kullanıcı ekler
         public async Task<ServiceMessage> AddUser(AddUserDto user)
         {
             var hasMail = _userRepository.GetAll(x => x.Email.ToLower() == user.Email.ToLower());
@@ -75,11 +76,21 @@ namespace ShoppingApp.Business.Operations.User
 
         }
 
-        public ServiceMessage<UserInfoDto> AddUser(UserInfoDto user)
+        public async Task<List<UserInfoDto>> GetUsers()
         {
-            throw new NotImplementedException();
+            var users = await _userRepository.GetAll().Select(x => new UserInfoDto
+            {
+                Id = x.Id,
+                Email = x.Email,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                UserType = x.UserType,
+            }).ToListAsync();
+
+            return users;
         }
 
+        // Kullanıcı girişini kontrol eder
         public ServiceMessage<UserInfoDto> LoginUser(LoginUserDto user)
         {
             var userEntity = _userRepository.Get(x => x.Email.ToLower() == user.Email.ToLower());
@@ -105,6 +116,7 @@ namespace ShoppingApp.Business.Operations.User
                         FirstName = userEntity.FirstName,
                         LastName = userEntity.LastName,
                         UserType = userEntity.UserType,
+                        PhoneNumber = userEntity.PhoneNumber,
                     }
 
                 };

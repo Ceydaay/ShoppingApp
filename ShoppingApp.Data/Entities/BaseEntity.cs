@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace ShoppingApp.Data.Entities
 {
+    // BaseEntity sınıfı, tüm veritabanı entiteleri için ortak olan alanları tanımlar.
     public class BaseEntity
     {
 
@@ -18,6 +19,8 @@ namespace ShoppingApp.Data.Entities
 
     }
 
+    // BaseConfiguration, BaseEntity sınıfını miras alan tüm entiteler için genel yapılandırma sağlar.
+
     public abstract class BaseConfiguration<TEntity> : IEntityTypeConfiguration<TEntity>
         where TEntity : BaseEntity
     {
@@ -25,7 +28,7 @@ namespace ShoppingApp.Data.Entities
         {
 
             builder.HasQueryFilter(x => x.IsDeleted == false);
-            //This is a filtering that will be valid in all queries and linq operations on the database.
+          
             builder.Property(x => x.ModifiedDate).IsRequired(false);
         }
     }

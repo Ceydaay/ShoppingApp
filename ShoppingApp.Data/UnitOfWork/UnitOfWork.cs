@@ -32,8 +32,7 @@ namespace ShoppingApp.Data.UnitOfWork
         {
             _db.Dispose();
 
-            //Where we give the Garbage Collecter permission to clean.
-            //It is not deleted at that moment-it makes it erasable.
+            
         }
 
         public async Task RollBackTransaction()

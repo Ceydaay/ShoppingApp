@@ -8,12 +8,15 @@ using System.Threading.Tasks;
 
 namespace ShoppingApp.Business.Operations.User
 {
+    // Kullanıcı işlemlerini yöneten servis arayüzü
     public interface IUserService
     {
         Task<ServiceMessage> AddUser(AddUserDto user);
+        Task<List<UserInfoDto>> GetUsers();
 
-        ServiceMessage<UserInfoDto> AddUser(UserInfoDto user);
 
+        // Kullanıcıyı giriş yapmasını sağlar ve kullanıcı bilgilerini döner
         ServiceMessage<UserInfoDto> LoginUser(LoginUserDto user);
+
     }
 }

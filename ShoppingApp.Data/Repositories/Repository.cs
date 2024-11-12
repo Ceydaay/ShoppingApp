@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace ShoppingApp.Data.Repositories
 {
+    // Repository<TEntity>, IRepository<TEntity> arayüzünü implemente eden generic repository sınıfıdır.
     public class Repository<TEntity> : IRepository<TEntity>
         where TEntity : BaseEntity
     {
@@ -29,12 +30,19 @@ namespace ShoppingApp.Data.Repositories
             //_db.SaveChanges();
         }
 
-        public void Delete(TEntity entity)
+        public void Delete(TEntity entity, bool softDelete = true)
         {
-            entity.ModifiedDate = DateTime.Now;
+            if (softDelete) { 
+                entity.ModifiedDate = DateTime.Now;
             entity.IsDeleted = true;
             _dbSet.Update(entity);
-           // _db.SaveChanges();
+        
+        }
+        else{
+             _dbSet.Remove(entity);
+        
+        }
+            // _db.SaveChanges();
         }
 
         public void Delete(int id)
@@ -63,6 +71,10 @@ namespace ShoppingApp.Data.Repositories
             entity.ModifiedDate = DateTime.Now;
             _dbSet.Update(entity);
             //_db.SaveChanges();
+        }
+        public async Task<bool> UserExistAsync(int customerId)
+        {
+            return await _db.Users.AnyAsync(x => x.Id == customerId);
         }
     }
 }

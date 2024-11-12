@@ -9,15 +9,18 @@ namespace ShoppingApp.Data.Entities
 {
     public class OrderEntity : BaseEntity
     {
-        public int Id { get; set; }  // Primary key
-        public DateTime OrderDate { get; set; }  // Date when the order was placed
-        public decimal TotalAmount { get; set; }  // Total amount of the order
-        public int CustomerId { get; set; }  // Foreign key linking to the customer who placed the order
-        public UserEntity Customer { get; set; }  // Navigation property for the related customer
+        // OrderEntity, sipariş bilgilerini tutan bir sınıftır. BaseEntity'den türetilmiştir.
+        public DateTime OrderDate { get; set; }  
+        public decimal TotalAmount { get; set; }  
+        public int CustomerId { get; set; }  
+        public UserEntity Customer { get; set; }  
+        public ICollection<OrderProductEntity> OrderProducts { get; set; }
     }
 
+    // OrderEntity için yapılandırma sınıfıdır. BaseConfiguration sınıfından türetilmiştir.
     public class OrderConfiguration : BaseConfiguration<OrderEntity> {
 
+        // Configure metodu, OrderEntity ile ilgili konfigürasyonları içerir.
         public override void Configure(EntityTypeBuilder<OrderEntity> builder)
         {
             base.Configure(builder);

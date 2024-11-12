@@ -8,9 +8,13 @@ namespace ShoppingApp.Business.Operations.Product.Dtos
 {
     public class AddProductDto
     {
-        public int Id { get; set; }  // Primary key
-        public string ProductName { get; set; }  // Name of the product
-        public decimal Price { get; set; }  // Price of the product
-        public int StockQuantity { get; set; }  // Quantity of the product in stock
+        // Ürünün adını tutan özellik
+        public string ProductName { get; set; }
+
+        // Ürünün fiyatını tutan özellik (decimal türünde para birimi için kullanılır)
+        public decimal Price { get; set; }
+
+        // Ürünün stokta bulunan miktarını tutan özellik
+        public int StockQuantity { get; set; }  
     }
 }

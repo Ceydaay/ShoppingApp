@@ -14,7 +14,7 @@ namespace ShoppingApp.WebApi.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-
+        // IUserService, kullanıcıyla ilgili işlemleri yöneten servis.
         private readonly IUserService _userService;
 
         public AuthController(IUserService userService)
@@ -23,7 +23,7 @@ namespace ShoppingApp.WebApi.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterRequest request)
+        public async Task<IActionResult> Register(RegisterRequest request)  // Register endpoint, yeni kullanıcı kaydı için HTTP POST metodu.
         {
             if (!ModelState.IsValid)
             {
@@ -53,17 +53,7 @@ namespace ShoppingApp.WebApi.Controllers
         {
 
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-
-            }
-            var loginUserDto = new LoginUserDto
-            {
-                Email = request.Email,
-                Password = request.Password,
-
-            };
-
 
             var result = _userService.LoginUser(new LoginUserDto { Email = request.Email, Password = request.Password });
 
@@ -73,12 +63,14 @@ namespace ShoppingApp.WebApi.Controllers
             var user = result.Data;
 
             var configuration = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
-            var token = JwtHelper.GenerateJwtToken(new JwtDto
+
+            var token = JwtHelper.GenerateJwtToken(new JwtDto   // Generate JWT token for the logged-in user
             {
                 Id = user.Id,
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber,
                 UserType = user.UserType,
                 SecretKey = configuration["Jwt:SecretKey"]!,
                 Issuer = configuration["Jwt:Issuer"]!,
@@ -86,21 +78,21 @@ namespace ShoppingApp.WebApi.Controllers
                 ExpireMinutes = int.Parse(configuration["Jwt:ExpireMinutes"]!)
             });
 
-            return Ok(new LoginResponse{
-
-                Message = "Giriş başarıyla tamamlandı.",
-                Token = token
-
-
+            return Ok(new LoginResponse
+            {
+                Message = "Giriş başarılı.",
+                Token = token,
             });
         }
 
-        [HttpGet("me")]
-        [Authorize]
+        [HttpGet("Users")]
+        [Authorize(Roles = "Admin")]
 
-        public IActionResult GetMyUser()
+        public async Task<IActionResult> GetMyUser()
         {
-            return Ok();
+            var users = await _userService.GetUsers();
+            
+            return Ok(users);
         }
 
     }

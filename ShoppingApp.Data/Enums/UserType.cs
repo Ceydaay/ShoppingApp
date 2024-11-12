@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShoppingApp.Data.Enums
 {
+    // UserType enum'u, kullanıcı türlerini tanımlar.
     public enum UserType
     {
         Customer, Admin
